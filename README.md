@@ -52,6 +52,7 @@ Installing Sortable is simple.
     Posts::sortableBy('title', 'asc')->get();
     Posts::sortableBy('title')->get(); // Direction is default
     Posts::sortableBy()->get(); // Key and direction are default
+    Posts::sortableBy(null, null)->get(); // Key and direction are default
     ```
 
 Please check the tests and source code for further documentation, as the source code of Sortable is well tested and documented.
