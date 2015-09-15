@@ -45,11 +45,6 @@ trait Sortable {
             return $this->determineSortableKey($key);
         }
 
-        if (is_null($key) && property_exists($this, 'sortableKey'))
-        {
-            return $this->sortableKey;
-        }
-
         return $this->getDefaultSortableKey();
     }
 
@@ -74,8 +69,13 @@ trait Sortable {
      *
      * @return string
      */
-    protected function getDefaultSortableKey()
+    public function getDefaultSortableKey()
     {
+        if (property_exists($this, 'sortableKey'))
+        {
+            return $this->sortableKey;
+        }
+
         return $this->getKeyName();
     }
 
@@ -90,11 +90,6 @@ trait Sortable {
         if ( ! is_null($direction))
         {
             return $this->validateSortableDirection($direction);
-        }
-
-        if (is_null($direction) && property_exists($this, 'sortableDirection'))
-        {
-            return strtolower($this->sortableDirection);
         }
 
         return $this->getDefaultSortableDirection();
@@ -121,8 +116,13 @@ trait Sortable {
      *
      * @return string
      */
-    protected function getDefaultSortableDirection()
+    public function getDefaultSortableDirection()
     {
+        if (property_exists($this, 'sortableDirection'))
+        {
+            return strtolower($this->sortableDirection);
+        }
+
         return 'asc';
     }
 
