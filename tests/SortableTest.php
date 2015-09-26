@@ -151,9 +151,9 @@ class SortableTest extends TestBase {
         );
 
         // Populate request
-        request()->replace(
+        \Request::replace(
             array_merge(
-                request()->input(),
+                \Request::input(),
                 [
                     's' => 'created_at',
                     'd' => 'desc'
@@ -163,12 +163,12 @@ class SortableTest extends TestBase {
 
         $this->assertEquals(
             'created_at',
-            request('s')
+            Request::input('s')
         );
 
         $this->assertEquals(
             'desc',
-            request('d')
+            Request::input('d')
         );
 
         SortableItem::sortable();
