@@ -17,19 +17,42 @@ trait Sortable {
     }
 
     /**
-     * Sortable scope
+     * Sortable by scope
      *
      * @param $query
      * @param string|null $key
      * @param string|null $direction
      * @return $query
      */
-    public function scopeSortableBy($query, $key = null, $direction = null)
+    public function scopeSortable($query, $key = null, $direction = null)
     {
+        if (is_null($key))
+        {
+            $key = request(Supporter::keyName);
+        }
+
+        if(is_null($direction))
+        {
+            $direction = request(Supporter::directionName);
+        }
+
         $direction = $this->getSortableDirection($direction);
         $key = $this->getSortableKey($key);
 
+        $this->setSupporterParams($key, $direction);
+
         return $query->orderBy($key, $direction);
+    }
+
+    /**
+     * Associates current sortable parameters with supporter
+     *
+     * @param string $key
+     * @param string $direction
+     */
+    protected function setSupporterParams($key, $direction)
+    {
+        app('sortable.supporter')->setParams($key, $direction);
     }
 
     /**
@@ -56,9 +79,9 @@ trait Sortable {
      */
     protected function determineSortableKey($key)
     {
-        if (array_key_exists($key, $this->sortableColumns))
+        if (in_array($key, $this->sortableColumns))
         {
-            return $this->sortableColumns[$key];
+            return $key;
         }
 
         return $this->getDefaultSortableKey();
@@ -103,7 +126,7 @@ trait Sortable {
      */
     protected function validateSortableDirection($direction)
     {
-        if (preg_match('/(asc|desc)/', $direction = strtolower($direction)))
+        if (preg_match('/(asc|desc)/', $direction = mb_strtolower($direction)))
         {
             return $direction;
         }

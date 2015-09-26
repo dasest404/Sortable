@@ -7,10 +7,7 @@ class SortableItem extends Model {
 
     use Sortable;
 
-    public $sortableColumns = [
-        'name' => 'title',
-        'date' => 'created_at'
-    ];
+    public $sortableColumns = ['title', 'created_at'];
 
     protected $fillable = ['title'];
 

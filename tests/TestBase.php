@@ -35,4 +35,10 @@ class TestBase extends TestCase {
             '--path'     => $migrationsPath,
         ]);
     }
+
+    protected function getPackageProviders($app)
+    {
+        return ['Kenarkose\Sortable\SortableServiceProvider'];
+    }
+
 }

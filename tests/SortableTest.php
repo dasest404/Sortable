@@ -7,21 +7,181 @@ class SortableTest extends TestBase {
         return SortableItem::create($attributes);
     }
 
+    protected function getSupporter()
+    {
+        return $this->app['sortable.supporter'];
+    }
+
     /** @test */
     function it_throws_exception_when_sortable_columns_are_not_defined()
     {
-        try {
+        try
+        {
             InvalidItem::create(['title' => 'foo']);
 
-        } catch(RuntimeException $e)
+        } catch (RuntimeException $e)
         {
-            if($e->getMessage() === 'The sortableColumns property is not set.')
+            if ($e->getMessage() === 'The sortableColumns property is not set.')
             {
                 return;
             }
         }
 
         return $this->fail('Expected RuntimeException not thrown.');
+    }
+
+    /** @test */
+    function it_registers_supplied_params_to_supporter()
+    {
+        $supporter = $this->getSupporter();
+
+        $this->assertNull(
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertNull(
+            $supporter->getCurrentDirection()
+        );
+
+        SortableItem::sortable('title', 'desc');
+
+        $this->assertEquals(
+            'title',
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertEquals(
+            'desc',
+            $supporter->getCurrentDirection()
+        );
+    }
+
+    /** @test */
+    function it_registers_defaults_to_supporter()
+    {
+        $supporter = $this->getSupporter();
+
+        $this->assertNull(
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertNull(
+            $supporter->getCurrentDirection()
+        );
+
+        // At this point the request does not have any params so
+        // even if scope would try to pull it from scope it will
+        // still be null and fallback to defaults
+        SortableItem::sortable();
+
+        $this->assertEquals(
+            'id',
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertEquals(
+            'asc',
+            $supporter->getCurrentDirection()
+        );
+    }
+
+    /** @test */
+    function it_selectively_fallsback_to_default_params()
+    {
+        $supporter = $this->getSupporter();
+
+        $this->assertNull(
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertNull(
+            $supporter->getCurrentDirection()
+        );
+
+        SortableItem::sortable('title');
+
+        $this->assertEquals(
+            'title',
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertEquals(
+            'asc',
+            $supporter->getCurrentDirection()
+        );
+    }
+
+    /** @test */
+    function it_fallsback_to_default_params_when_invalid_params_supplied()
+    {
+        $supporter = $this->getSupporter();
+
+        $this->assertNull(
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertNull(
+            $supporter->getCurrentDirection()
+        );
+
+        SortableItem::sortable('non_existing_key', 'non_existing_direction');
+
+        $this->assertEquals(
+            'id',
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertEquals(
+            'asc',
+            $supporter->getCurrentDirection()
+        );
+    }
+
+    /** @test */
+    function it_registers_request_params()
+    {
+        $supporter = $this->getSupporter();
+
+        $this->assertNull(
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertNull(
+            $supporter->getCurrentDirection()
+        );
+
+        // Populate request
+        request()->replace(
+            array_merge(
+                request()->input(),
+                [
+                    's' => 'created_at',
+                    'd' => 'desc'
+                ]
+            )
+        );
+
+        $this->assertEquals(
+            'created_at',
+            request('s')
+        );
+
+        $this->assertEquals(
+            'desc',
+            request('d')
+        );
+
+        SortableItem::sortable();
+
+        $this->assertEquals(
+            'created_at',
+            $supporter->getCurrentKey()
+        );
+
+        $this->assertEquals(
+            'desc',
+            $supporter->getCurrentDirection()
+        );
     }
 
     /** @test */
@@ -63,7 +223,7 @@ class SortableTest extends TestBase {
         $sortable = $this->getSortable(['title' => 'Foo']);
 
         $this->assertEquals(
-            $sortable->getSortableKey('date'),
+            $sortable->getSortableKey('created_at'),
             'created_at'
         );
     }
