@@ -28,12 +28,14 @@ trait Sortable {
     {
         if (is_null($key))
         {
-            $key = request(Supporter::keyName);
+            // We are using the facade here instead of the request helper
+            // to make this package compatible with Laravel 5.0
+            $key = \Request::input(Supporter::keyName);
         }
 
         if(is_null($direction))
         {
-            $direction = request(Supporter::directionName);
+            $direction = \Request::input(Supporter::directionName);
         }
 
         $direction = $this->getSortableDirection($direction);
