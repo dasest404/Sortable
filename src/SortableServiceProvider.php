@@ -7,6 +7,25 @@ use Illuminate\Support\ServiceProvider;
 
 class SortableServiceProvider extends ServiceProvider {
 
+    const version = '1.1.3';
+
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['sortable.supporter'];
+    }
+
     /**
      * Register the service provider.
      *
@@ -26,14 +45,6 @@ class SortableServiceProvider extends ServiceProvider {
             'sortable.supporter',
             'Kenarkose\Sortable\Supporter'
         );
-    }
-
-    /**
-     * Boots the provider
-     */
-    public function boot()
-    {
-        require __DIR__ . '/helpers.php';
     }
 
 }
