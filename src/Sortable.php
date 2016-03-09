@@ -26,6 +26,20 @@ trait Sortable {
      */
     public function scopeSortable($query, $key = null, $direction = null)
     {
+        list($key, $direction) = $this->validateSortableParameters($key, $direction);
+
+        return $query->orderBy($key, $direction);
+    }
+
+    /**
+     * Validates sortable parameters
+     *
+     * @param $key
+     * @param $direction
+     * @return array
+     */
+    public function validateSortableParameters($key, $direction)
+    {
         if (is_null($key))
         {
             // We are using the facade here instead of the request helper
@@ -33,7 +47,7 @@ trait Sortable {
             $key = \Request::input(Supporter::keyName);
         }
 
-        if(is_null($direction))
+        if (is_null($direction))
         {
             $direction = \Request::input(Supporter::directionName);
         }
@@ -43,7 +57,7 @@ trait Sortable {
 
         $this->setSupporterParams($key, $direction);
 
-        return $query->orderBy($key, $direction);
+        return array($key, $direction);
     }
 
     /**
