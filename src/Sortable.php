@@ -38,7 +38,7 @@ trait Sortable {
      * @param $direction
      * @return array
      */
-    public function validateSortableParameters($key, $direction)
+    protected function validateSortableParameters($key, $direction)
     {
         if (is_null($key))
         {

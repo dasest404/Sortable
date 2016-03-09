@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class SortableServiceProvider extends ServiceProvider {
 
-    const version = '1.1.4';
+    const version = '1.1.5';
 
     /**
      * Indicates if loading of the provider is deferred.
