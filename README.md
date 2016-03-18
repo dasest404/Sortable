@@ -10,7 +10,7 @@ Easy sorting for Eloquent models.
 Sortable provides a simple way to sort Eloquent models through model scopes.
 
 ## Features
-- Compatible with Laravel 5.0 and 5.1
+- Compatible with Laravel 5
 - Simple API for sorting Eloquent models through supplied scope
 - Sorting key and direction validation
 - A [phpunit](http://www.phpunit.de) test suite for easy development
@@ -23,7 +23,7 @@ Installing Sortable is simple.
     ```js
     {
         "require": {
-            "kenarkose/sortable": "1.1.*"
+            "kenarkose/sortable": "~1.0"
         }
     }
     ```

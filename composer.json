@@ -10,7 +10,7 @@
         "laravel",
         "laravel5"
     ],
-    "version": "1.1.5",
+    "version": "1.2.0",
     "authors": [
         {
             "name": "Hyleeh",
@@ -41,10 +41,5 @@
     },
     "suggest": {
         "laravel/framework": "This package requires Laravel 5."
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.2-dev"
-        }
     }
 }
