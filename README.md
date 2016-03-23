@@ -13,6 +13,7 @@ Sortable provides a simple way to sort Eloquent models through model scopes.
 - Compatible with Laravel 5
 - Simple API for sorting Eloquent models through supplied scope
 - Sorting key and direction validation
+- Sortable key configuration, allowing special methods for special keys
 - A [phpunit](http://www.phpunit.de) test suite for easy development
 
 ## Installation
@@ -35,12 +36,13 @@ Installing Sortable is simple.
     {
         use Kenarkose\Sortable\Sortable;
 
-        protected $sortableColumns = ['title', 'created_at']; // You must define this property
+        protected $sortableColumns = ['title', 'created_at', 'special_key']; // You must define this property
 
         protected $sortableKey = 'title'; // This is optional, default is id
 
         protected $sortableDirection = 'desc'; // This is optional, default is asc
 
+        protected $specialSortableKeys = ['special_key', 'specialMethodForSorting'];
         ...
     }
 
@@ -48,6 +50,7 @@ Installing Sortable is simple.
     Post::sortable('title')->get(); // Direction is loaded from request or fallsback to default
     Post::sortable()->get(); // Key and direction are loaded from request or fallback to default
     Post::sortable(null, null)->get(); // Same
+    Post::sortable('special-key'); // Calls specialMethodForSorting($query, $key, $direction)
     ```
 
 3. Additionally, you may use the helper method to generate links.

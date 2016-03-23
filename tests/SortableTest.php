@@ -209,7 +209,7 @@ class SortableTest extends TestBase {
     /** @test */
     function it_returns_default_sortable_if_key_is_invalid()
     {
-        $sortable = $this->getSortable(['title' => 'Foo']);
+        $sortable = $this->getSortable();
 
         $this->assertEquals(
             $sortable->getSortableKey('non_existing_sorting_key'),
@@ -220,7 +220,7 @@ class SortableTest extends TestBase {
     /** @test */
     function it_returns_sortable_column_with_key()
     {
-        $sortable = $this->getSortable(['title' => 'Foo']);
+        $sortable = $this->getSortable();
 
         $this->assertEquals(
             $sortable->getSortableKey('created_at'),
@@ -253,7 +253,7 @@ class SortableTest extends TestBase {
     /** @test */
     function it_returns_default_sortable_if_direction_is_invalid()
     {
-        $sortable = $this->getSortable(['title' => 'Foo']);
+        $sortable = $this->getSortable();
 
         $this->assertEquals(
             $sortable->getSortableDirection('non_existing_sorting_direction'),
@@ -264,12 +264,47 @@ class SortableTest extends TestBase {
     /** @test */
     function it_returns_sortable_column_with_direction()
     {
-        $sortable = $this->getSortable(['title' => 'Foo']);
+        $sortable = $this->getSortable();
 
         $this->assertEquals(
             $sortable->getSortableDirection('DeSc'),
             'desc'
         );
+    }
+
+    /** @test */
+    function it_gets_special_sortable_keys()
+    {
+        $sortable = $this->getSortable();
+
+        $this->assertEquals(
+            ['special_key' => 'specialFunction'],
+            $sortable->getSpecialSortableKeys()
+        );
+
+        $sortable = DirectionItem::create(['title' => 'foo']);
+
+        $this->assertEquals(
+            [],
+            $sortable->getSpecialSortableKeys()
+        );
+    }
+
+    /** @test */
+    function it_calls_special_sortable_function()
+    {
+        try
+        {
+            SortableItem::sortable('special_key', 'asc');
+        } catch (\Exception $e)
+        {
+            if ($e->getMessage() === 'special_key')
+            {
+                return;
+            }
+        }
+
+        $this->fail('Special function not called, test fails.');
     }
 
 }

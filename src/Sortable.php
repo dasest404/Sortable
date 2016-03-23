@@ -28,6 +28,12 @@ trait Sortable {
     {
         list($key, $direction) = $this->validateSortableParameters($key, $direction);
 
+        // Call for special method by special sortable key
+        if (array_key_exists($key, $specialKeys = $this->getSpecialSortableKeys()))
+        {
+            return call_user_func_array([$this, $specialKeys[$key]], [$query, $key, $direction]);
+        }
+
         return $query->orderBy($key, $direction);
     }
 
@@ -163,6 +169,17 @@ trait Sortable {
         }
 
         return 'asc';
+    }
+
+    /**
+     * Gets special sortable keys
+     *
+     * @return array
+     */
+    public function getSpecialSortableKeys()
+    {
+        return property_exists(get_called_class(), 'specialSortableKeys')
+            ? $this->specialSortableKeys : [];
     }
 
 }
