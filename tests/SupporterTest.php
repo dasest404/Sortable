@@ -53,7 +53,7 @@ class SupporterTest extends TestBase {
         $supporter = $this->getSupporter();
 
         $this->assertEquals(
-            '<a title="Title" class="asc " href="http://localhost?s=id&d=asc">Text</a>',
+            '<a title="Title" class="sortable-link sortable-link--asc " href="http://localhost?s=id&d=asc">Text</a>',
             $supporter->generateLinkFor('id', 'Text', 'Title')
         );
     }
@@ -66,7 +66,7 @@ class SupporterTest extends TestBase {
         $supporter = $this->getSupporter();
 
         $this->assertEquals(
-            '<a title="Title" class="asc active" href="http://localhost?s=id&d=desc">Text</a>',
+            '<a title="Title" class="sortable-link sortable-link--asc sortable-link--active" href="http://localhost?s=id&d=desc">Text</a>',
             $supporter->generateLinkFor('id', 'Text', 'Title')
         );
     }

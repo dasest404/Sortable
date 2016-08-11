@@ -10,10 +10,18 @@ class Supporter {
     /**
      * Key and direction parameter names in the request
      *
-     * @var string
+     * @const string
      */
     const keyName = 's';
     const directionName = 'd';
+
+    /**
+     * Class and prefix for the links
+     *
+     * @const string
+     */
+    const linkClass = 'sortable-link';
+    const linkPrefix = 'sortable-link--';
 
     /**
      * Cache for current key and direction
@@ -49,8 +57,6 @@ class Supporter {
      */
     public function generateLinkFor($key, $content, $title = null)
     {
-        $active = ($key === $this->getCurrentKey()) ? 'active' : '';
-
         $direction = $linkDirection = 'asc';
 
         if ($key === $this->getCurrentKey())
@@ -73,10 +79,11 @@ class Supporter {
         );
 
         return sprintf(
-            '<a title="%s" class="%s %s" href="%s">%s</a>',
+            '<a title="%s" class="%s %s %s" href="%s">%s</a>',
             $title,
-            $linkDirection,
-            $active,
+            static::linkClass,
+            static::linkPrefix . $linkDirection,
+            ($key === $this->getCurrentKey()) ? static::linkPrefix . 'active' : '',
             $url,
             $content
         );

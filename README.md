@@ -24,7 +24,7 @@ Installing Sortable is simple.
     ```js
     {
         "require": {
-            "kenarkose/sortable": "~1.0"
+            "kenarkose/sortable": "~1.3"
         }
     }
     ```
@@ -57,13 +57,13 @@ Installing Sortable is simple.
     ```php
     {{ sortable_link($sortable_key, $link_text_or_content, $link_title }}
 
-    <a title="Link Title" class="asc" href="http://foo.bar/posts?s=sortable_key&d=asc">Link text or content</a>
+    <a title="Link Title" class="sortable-link sortable-link--asc" href="http://foo.bar/posts?s=sortable_key&d=asc">Link text or content</a>
 
     // If the supplied key is currently used for sorting the helper toggles direction and adds the active class to the link
-    <a title="Link Title" class="desc active" href="http://foo.bar/posts?s=current_key&d=asc">Link text or content</a>
+    <a title="Link Title" class="sortable-link sortable-link--desc sortable-link--active" href="http://foo.bar/posts?s=current_key&d=asc">Link text or content</a>
 
     // The helper only removes 's', 'd' and 'page' parameters from the previous query string
-    <a title="Link Title" class="asc" href="http://foo.bar/posts?s=sortable_key&d=asc&keywords=kenarkose&foo=bar">Link text or content</a>
+    <a title="Link Title" class="sortable-link sortable-link--asc" href="http://foo.bar/posts?s=sortable_key&d=asc&keywords=kenarkose&foo=bar">Link text or content</a>
     ```
 
 Please check the tests and source code for further documentation, as the source code of Sortable is well tested and documented.
